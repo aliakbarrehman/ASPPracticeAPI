@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using ASPPracticeAPI.Helpers;
 
 namespace ASPPracticeAPI.Services
 {
@@ -21,9 +21,15 @@ namespace ASPPracticeAPI.Services
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
         }
-        public IEnumerable<User> GetUsers()
+        public PagedResponse<User> GetUsers(UserQueryParameters userQuery)
         {
-            return _dbContext.Users.Include(x => x.Tasks).ToList<User>();
+            var x = _dbContext.Users as IQueryable<User>;
+            var result = new PagedResponse<User>
+            {
+                TotalItems = x.Count(),
+                Items = x.Skip(userQuery.PageSize * (userQuery.PageNumber - 1)).Take(userQuery.PageSize).Include(x => x.Tasks).ToList<User>()
+            };
+            return result;
         }
         public User GetUser(int userId)
         {

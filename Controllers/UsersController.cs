@@ -1,5 +1,6 @@
 ﻿using ASPPracticeAPI.Dtos;
 using ASPPracticeAPI.Entities;
+using ASPPracticeAPI.Helpers;
 using ASPPracticeAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,15 @@ namespace ASPPracticeAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<UserDto>> GetUsers()
+        public ActionResult<PagedResponse<UserDto>> GetUsers([FromQuery] UserQueryParameters userQuery)
         {
-            var users = _repository.GetUsers();
-            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
+            var users = _repository.GetUsers(userQuery);
+            var result = new PagedResponse<UserDto>
+            {
+                TotalItems = users.TotalItems,
+                Items = _mapper.Map<IEnumerable<UserDto>>(users.Items)
+            };
+            return Ok(result);
         }
         [HttpPost]
         public ActionResult<UserDto> AddNewUser(AddUserDto userDto)
