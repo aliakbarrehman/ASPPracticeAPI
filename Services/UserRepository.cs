@@ -3,7 +3,8 @@ using ASPPracticeAPI.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ASPPracticeAPI.Services
 {
@@ -15,24 +16,26 @@ namespace ASPPracticeAPI.Services
         {
             _dbContext = dbContext;
         }
-        public bool AddUser(User user)
+        public void AddUser(User user)
         {
-            try
-            {
-                var x = _dbContext.Users.Add(user);
-                _dbContext.SaveChanges();
-                return true;
-            }
-            catch(Exception _)
-            {
-                // Log if exception here
-                return false;
-            }
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
         }
         public IEnumerable<User> GetUsers()
         {
-            var x = _dbContext.Users.ToList<User>();
-            return x;
+            return _dbContext.Users.Include(x => x.Tasks).ToList<User>();
+        }
+        public User GetUser(int userId)
+        {
+            return _dbContext.Users.Where(x => x.Id == userId).FirstOrDefault();
+        }
+        public void UpdateUser(int userId, User user)
+        {
+
+        }
+        public void DeleteUser(User user)
+        {
+            _dbContext.Users.Remove(user);
         }
         public void Dispose()
         {

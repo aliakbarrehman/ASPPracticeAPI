@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ASPPracticeAPI.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASPPracticeAPI.Dtos
 {
@@ -10,5 +10,6 @@ namespace ASPPracticeAPI.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public List<AddTaskDto> Tasks { get; set; } = new List<AddTaskDto>();
     }
 }

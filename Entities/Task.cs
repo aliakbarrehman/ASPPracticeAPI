@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace ASPPracticeAPI.Entities
 {
-    public class User
+    public class Task
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [MaxLength(25)]
-        public string FirstName { get; set; }
+        public string Title { get; set; }
         [Required]
-        [MaxLength(25)]
-        public string LastName { get; set; }
+        public string Description { get; set; }
         [Required]
-        public string Email { get; set; }
-        public List<Task> Tasks { get; set; } = new List<Task>();
+        public bool IsDone { get; set; } = false;
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }

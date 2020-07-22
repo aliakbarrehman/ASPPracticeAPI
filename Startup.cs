@@ -30,8 +30,9 @@ namespace CourseLibrary.API
             }).AddXmlDataContractSerializerFormatters();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-             
+
             services.AddScoped<UserRepository>();
+            services.AddScoped<TaskRepository>();
 
             services.AddDbContext<MySqlDbContext>(options =>
             {

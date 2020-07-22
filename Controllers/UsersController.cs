@@ -24,14 +24,14 @@ namespace ASPPracticeAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
-            var x = _repository.GetUsers();
-            return Ok(_mapper.Map<IEnumerable<UserDto>>(x));
+            var users = _repository.GetUsers();
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
         }
         [HttpPost]
         public ActionResult<UserDto> AddNewUser(AddUserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
-            var x = _repository.AddUser(user);
+            _repository.AddUser(user);
             return Ok(_mapper.Map<UserDto>(user));
         }
     }
