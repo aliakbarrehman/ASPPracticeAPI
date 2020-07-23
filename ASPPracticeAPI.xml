@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ASPPracticeAPI</name>
+    </assembly>
+    <members>
+        <member name="M:ASPPracticeAPI.Controllers.UsersController.GetUsers(ASPPracticeAPI.UserQueryParameters)">
+            <summary>
+            Get all the authors
+            </summary>
+            <param name="userQuery">Page size and page number as part of query string</param>
+            <returns>Number of total items and items in current page</returns>
+        </member>
+    </members>
+</doc>

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace CourseLibrary.API
 {
@@ -30,7 +32,18 @@ namespace CourseLibrary.API
             }).AddXmlDataContractSerializerFormatters();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("TestOpenAPISpec", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Test Documentation",
+                    Description = "Testing Swagger Documentation and XML Comments"
+                });
 
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                setupAction.IncludeXmlComments(xmlFilePath);
+            });
             services.AddScoped<UserRepository>();
             services.AddScoped<TaskRepository>();
 
@@ -48,7 +61,11 @@ namespace CourseLibrary.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(setupAction => {
+                setupAction.SwaggerEndpoint("/swagger/TestOpenAPISpec/swagger.json", "TestOpenAPI Doc");
+                setupAction.RoutePrefix = "";
+            });
             app.UseRouting();
 
             // app.UseAuthorization();

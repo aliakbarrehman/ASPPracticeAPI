@@ -22,6 +22,11 @@ namespace ASPPracticeAPI.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Get all the authors
+        /// </summary>
+        /// <param name="userQuery">Page size and page number as part of query string</param>
+        /// <returns>Number of total items and items in current page</returns>
         [HttpGet]
         public ActionResult<PagedResponse<UserDto>> GetUsers([FromQuery] UserQueryParameters userQuery)
         {
